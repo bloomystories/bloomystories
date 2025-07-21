@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="styles.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Google Places API -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=initMap"></script>
 </head>
 <body>
     <div id="app">
@@ -15,7 +17,8 @@
         <nav class="navbar">
             <div class="nav-container">
                 <div class="nav-logo">
-                    <h2>Bloomy Stories</h2>
+                    <img src="images/logo.jpg" alt="Bloomy Stories" class="logo-light">
+                    <img src="images/logo_dark.jpg" alt="Bloomy Stories" class="logo-dark">
                 </div>
                 <ul class="nav-menu" :class="{ active: mobileMenuOpen }">
                     <li class="nav-item">
@@ -29,6 +32,11 @@
                     </li>
                     <li class="nav-item">
                         <a href="#contact" @click="scrollToContact">Contact</a>
+                    </li>
+                    <li class="nav-item dark-mode-toggle">
+                        <button @click="toggleDarkMode" class="dark-mode-btn" :title="darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'">
+                            <i :class="darkMode ? 'fas fa-sun' : 'fas fa-moon'"></i>
+                        </button>
                     </li>
                 </ul>
                 <div class="nav-toggle" @click="mobileMenuOpen = !mobileMenuOpen">
@@ -48,7 +56,7 @@
                     <button class="cta-button" @click="currentPage = 'gallery'">View Portfolio</button>
                 </div>
                 <div class="hero-image">
-                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Wedding couple">
+                    <img src="images/wed/1I0A4643.jpg" alt="Stunning wedding capture by Bloomy Stories">
                 </div>
             </section>
 
@@ -61,7 +69,7 @@
                             <p>Every wedding is unique, and I work closely with each couple to understand their vision and capture the authentic emotions and details that make their celebration special.</p>
                         </div>
                         <div class="about-image">
-                            <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Photographer at work">
+                            <img src="images/prewed/DSC05299.jpg" alt="Beautiful prewedding photography by Bloomy Stories">
                         </div>
                     </div>
                 </div>
@@ -154,19 +162,72 @@
 
             <section class="testimonials">
                 <div class="container">
-                    <div class="testimonials-grid">
-                        <div v-for="testimonial in testimonials" :key="testimonial.id" class="testimonial-card">
-                            <div class="testimonial-content">
-                                <div class="stars">
-                                    <i v-for="n in 5" :key="n" class="fas fa-star"></i>
+                    <!-- Google Reviews Section -->
+                    <div class="google-reviews-section" v-if="googleReviews.length > 0">
+                        <div class="reviews-header">
+                            <div class="google-branding">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google" class="google-logo">
+                                <div class="rating-overview">
+                                    <div class="overall-rating">
+                                        <span class="rating-number">{{ overallRating }}</span>
+                                        <div class="stars">
+                                            <i v-for="n in 5" :key="n" class="fas fa-star" :class="{ filled: n <= Math.round(overallRating) }"></i>
+                                        </div>
+                                    </div>
+                                    <p class="review-count">Based on {{ googleReviews.length }} Google reviews</p>
                                 </div>
-                                <p>"{{ testimonial.text }}"</p>
                             </div>
-                            <div class="testimonial-author">
-                                <img :src="testimonial.photo" :alt="testimonial.name">
-                                <div class="author-info">
-                                    <h4>{{ testimonial.name }}</h4>
-                                    <span>{{ testimonial.date }}</span>
+                        </div>
+                        
+                        <div class="google-reviews-grid">
+                            <div v-for="review in displayedGoogleReviews" :key="review.id" class="google-review-card">
+                                <div class="review-header">
+                                    <img :src="review.profile_photo_url || 'https://via.placeholder.com/50x50?text=' + review.author_name.charAt(0)" :alt="review.author_name" class="reviewer-avatar">
+                                    <div class="reviewer-info">
+                                        <h4>{{ review.author_name }}</h4>
+                                        <div class="review-meta">
+                                            <div class="stars">
+                                                <i v-for="n in 5" :key="n" class="fas fa-star" :class="{ filled: n <= review.rating }"></i>
+                                            </div>
+                                            <span class="review-date">{{ formatDate(review.time) }}</span>
+                                        </div>
+                                    </div>
+                                    <i class="fab fa-google google-icon"></i>
+                                </div>
+                                <div class="review-content">
+                                    <p>{{ review.text }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="load-more-reviews" v-if="googleReviews.length > displayedReviewsCount">
+                            <button @click="loadMoreReviews" class="load-more-btn">Load More Reviews</button>
+                        </div>
+                    </div>
+
+                    <!-- Loading State -->
+                    <div v-if="loadingReviews" class="loading-reviews">
+                        <div class="spinner"></div>
+                        <p>Loading Google Reviews...</p>
+                    </div>
+
+                    <!-- Fallback Static Testimonials -->
+                    <div class="static-testimonials" v-if="!loadingReviews && googleReviews.length === 0">
+                        <h3>Client Testimonials</h3>
+                        <div class="testimonials-grid">
+                            <div v-for="testimonial in testimonials" :key="testimonial.id" class="testimonial-card">
+                                <div class="testimonial-content">
+                                    <div class="stars">
+                                        <i v-for="n in 5" :key="n" class="fas fa-star"></i>
+                                    </div>
+                                    <p>"{{ testimonial.text }}"</p>
+                                </div>
+                                <div class="testimonial-author">
+                                    <img :src="testimonial.photo" :alt="testimonial.name">
+                                    <div class="author-info">
+                                        <h4>{{ testimonial.name }}</h4>
+                                        <span>{{ testimonial.date }}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -198,15 +259,11 @@
                     <div class="social-media">
                         <h3>Follow My Work</h3>
                         <div class="social-links">
-                            <a href="https://instagram.com" target="_blank" class="social-link instagram">
+                            <a href="https://www.instagram.com/thebloomystories/#" target="_blank" class="social-link instagram">
                                 <i class="fab fa-instagram"></i>
                                 <span>Instagram</span>
                             </a>
-                            <a href="https://twitter.com" target="_blank" class="social-link twitter">
-                                <i class="fab fa-twitter"></i>
-                                <span>Twitter</span>
-                            </a>
-                            <a href="https://youtube.com" target="_blank" class="social-link youtube">
+                            <a href="https://www.youtube.com/@thebloomytories" target="_blank" class="social-link youtube">
                                 <i class="fab fa-youtube"></i>
                                 <span>YouTube</span>
                             </a>

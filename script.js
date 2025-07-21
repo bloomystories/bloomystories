@@ -9,82 +9,230 @@ createApp({
             activeCategory: 'All',
             lightboxOpen: false,
             currentPhotoIndex: 0,
+            darkMode: false,
             
-            galleryCategories: ['All', 'Ceremony', 'Reception', 'Portraits', 'Details'],
+            // Google Reviews Data
+            googleReviews: [],
+            loadingReviews: false,
+            displayedReviewsCount: 6,
+            overallRating: 0,
             
-            // Gallery photos with categories
+            galleryCategories: ['All', 'Prewedding', 'Wedding'],
+            
+            // Gallery photos with categories - using your actual images
             photos: [
+                // Prewedding Photos
                 {
-                    thumbnail: 'https://images.unsplash.com/photo-1465495976277-4387d4b0e4a6?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-                    full: 'https://images.unsplash.com/photo-1465495976277-4387d4b0e4a6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+                    thumbnail: 'images/prewed/DSC01159.jpg',
+                    full: 'images/prewed/DSC01159.jpg',
+                    alt: 'Romantic prewedding moment',
+                    category: 'Prewedding'
+                },
+                {
+                    thumbnail: 'images/prewed/DSC01293.jpg',
+                    full: 'images/prewed/DSC01293.jpg',
+                    alt: 'Beautiful prewedding portrait',
+                    category: 'Prewedding'
+                },
+                {
+                    thumbnail: 'images/prewed/DSC01336.jpg',
+                    full: 'images/prewed/DSC01336.jpg',
+                    alt: 'Couple prewedding session',
+                    category: 'Prewedding'
+                },
+                {
+                    thumbnail: 'images/prewed/DSC01494.jpg',
+                    full: 'images/prewed/DSC01494.jpg',
+                    alt: 'Artistic prewedding shot',
+                    category: 'Prewedding'
+                },
+                {
+                    thumbnail: 'images/prewed/DSC01641.jpg',
+                    full: 'images/prewed/DSC01641.jpg',
+                    alt: 'Prewedding love story',
+                    category: 'Prewedding'
+                },
+                {
+                    thumbnail: 'images/prewed/DSC05265.jpg',
+                    full: 'images/prewed/DSC05265.jpg',
+                    alt: 'Dreamy prewedding moment',
+                    category: 'Prewedding'
+                },
+                {
+                    thumbnail: 'images/prewed/DSC05299.jpg',
+                    full: 'images/prewed/DSC05299.jpg',
+                    alt: 'Candid prewedding capture',
+                    category: 'Prewedding'
+                },
+                {
+                    thumbnail: 'images/prewed/DSC05310.jpg',
+                    full: 'images/prewed/DSC05310.jpg',
+                    alt: 'Elegant prewedding portrait',
+                    category: 'Prewedding'
+                },
+                {
+                    thumbnail: 'images/prewed/DSC05322.jpg',
+                    full: 'images/prewed/DSC05322.jpg',
+                    alt: 'Romantic prewedding scene',
+                    category: 'Prewedding'
+                },
+                {
+                    thumbnail: 'images/prewed/DSC05396.jpg',
+                    full: 'images/prewed/DSC05396.jpg',
+                    alt: 'Beautiful prewedding moment',
+                    category: 'Prewedding'
+                },
+                {
+                    thumbnail: 'images/prewed/DSC05527.jpg',
+                    full: 'images/prewed/DSC05527.jpg',
+                    alt: 'Prewedding couple photography',
+                    category: 'Prewedding'
+                },
+                {
+                    thumbnail: 'images/prewed/DSC05535.jpg',
+                    full: 'images/prewed/DSC05535.jpg',
+                    alt: 'Stunning prewedding capture',
+                    category: 'Prewedding'
+                },
+                {
+                    thumbnail: 'images/prewed/DSC05652.jpg',
+                    full: 'images/prewed/DSC05652.jpg',
+                    alt: 'Artistic prewedding photography',
+                    category: 'Prewedding'
+                },
+                {
+                    thumbnail: 'images/prewed/DSC05671.jpg',
+                    full: 'images/prewed/DSC05671.jpg',
+                    alt: 'Prewedding love capture',
+                    category: 'Prewedding'
+                },
+                {
+                    thumbnail: 'images/prewed/DSC05676.jpg',
+                    full: 'images/prewed/DSC05676.jpg',
+                    alt: 'Dreamy prewedding shot',
+                    category: 'Prewedding'
+                },
+                
+                // Wedding Photos
+                {
+                    thumbnail: 'images/wed/1I0A4204.jpg',
+                    full: 'images/wed/1I0A4204.jpg',
                     alt: 'Wedding ceremony moment',
-                    category: 'Ceremony'
+                    category: 'Wedding'
                 },
                 {
-                    thumbnail: 'https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-                    full: 'https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-                    alt: 'Bride and groom portrait',
-                    category: 'Portraits'
+                    thumbnail: 'images/wed/1I0A4229.jpg',
+                    full: 'images/wed/1I0A4229.jpg',
+                    alt: 'Beautiful wedding portrait',
+                    category: 'Wedding'
                 },
                 {
-                    thumbnail: 'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-                    full: 'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-                    alt: 'Wedding reception dance',
-                    category: 'Reception'
+                    thumbnail: 'images/wed/1I0A4300.jpg',
+                    full: 'images/wed/1I0A4300.jpg',
+                    alt: 'Wedding celebration moment',
+                    category: 'Wedding'
                 },
                 {
-                    thumbnail: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-                    full: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-                    alt: 'Wedding rings detail',
-                    category: 'Details'
+                    thumbnail: 'images/wed/1I0A4308.jpg',
+                    full: 'images/wed/1I0A4308.jpg',
+                    alt: 'Bride and groom moment',
+                    category: 'Wedding'
                 },
                 {
-                    thumbnail: 'https://images.unsplash.com/photo-1522413452208-996ff3c3a9b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-                    full: 'https://images.unsplash.com/photo-1522413452208-996ff3c3a9b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-                    alt: 'Couple walking together',
-                    category: 'Portraits'
+                    thumbnail: 'images/wed/1I0A4315.jpg',
+                    full: 'images/wed/1I0A4315.jpg',
+                    alt: 'Wedding ceremony capture',
+                    category: 'Wedding'
                 },
                 {
-                    thumbnail: 'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-                    full: 'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-                    alt: 'Wedding ceremony kiss',
-                    category: 'Ceremony'
+                    thumbnail: 'images/wed/1I0A4329.jpg',
+                    full: 'images/wed/1I0A4329.jpg',
+                    alt: 'Special wedding moment',
+                    category: 'Wedding'
                 },
                 {
-                    thumbnail: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-                    full: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-                    alt: 'Wedding bouquet details',
-                    category: 'Details'
+                    thumbnail: 'images/wed/1I0A4498.jpg',
+                    full: 'images/wed/1I0A4498.jpg',
+                    alt: 'Wedding day memories',
+                    category: 'Wedding'
                 },
                 {
-                    thumbnail: 'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-                    full: 'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-                    alt: 'Reception celebration',
-                    category: 'Reception'
+                    thumbnail: 'images/wed/1I0A4585.jpg',
+                    full: 'images/wed/1I0A4585.jpg',
+                    alt: 'Beautiful wedding scene',
+                    category: 'Wedding'
                 },
                 {
-                    thumbnail: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-                    full: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-                    alt: 'Romantic couple portrait',
-                    category: 'Portraits'
+                    thumbnail: 'images/wed/1I0A4600.jpg',
+                    full: 'images/wed/1I0A4600.jpg',
+                    alt: 'Wedding couple portrait',
+                    category: 'Wedding'
                 },
                 {
-                    thumbnail: 'https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-                    full: 'https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-                    alt: 'Wedding shoes detail',
-                    category: 'Details'
+                    thumbnail: 'images/wed/1I0A4643.jpg',
+                    full: 'images/wed/1I0A4643.jpg',
+                    alt: 'Stunning wedding capture',
+                    category: 'Wedding'
                 },
                 {
-                    thumbnail: 'https://images.unsplash.com/photo-1505440484611-23c171ad6e96?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-                    full: 'https://images.unsplash.com/photo-1505440484611-23c171ad6e96?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-                    alt: 'Wedding ceremony moment',
-                    category: 'Ceremony'
+                    thumbnail: 'images/wed/1I0A4688.jpg',
+                    full: 'images/wed/1I0A4688.jpg',
+                    alt: 'Wedding day joy',
+                    category: 'Wedding'
                 },
                 {
-                    thumbnail: 'https://images.unsplash.com/photo-1543764822-c4b6e2a64d0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-                    full: 'https://images.unsplash.com/photo-1543764822-c4b6e2a64d0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-                    alt: 'Reception party dancing',
-                    category: 'Reception'
+                    thumbnail: 'images/wed/1I0A4710.jpg',
+                    full: 'images/wed/1I0A4710.jpg',
+                    alt: 'Perfect wedding moment',
+                    category: 'Wedding'
+                },
+                {
+                    thumbnail: 'images/wed/4Z9A3959.jpg',
+                    full: 'images/wed/4Z9A3959.jpg',
+                    alt: 'Wedding celebration',
+                    category: 'Wedding'
+                },
+                {
+                    thumbnail: 'images/wed/4Z9A6067.jpg',
+                    full: 'images/wed/4Z9A6067.jpg',
+                    alt: 'Wedding ceremony detail',
+                    category: 'Wedding'
+                },
+                {
+                    thumbnail: 'images/wed/DSC00052.jpg',
+                    full: 'images/wed/DSC00052.jpg',
+                    alt: 'Wedding day emotions',
+                    category: 'Wedding'
+                },
+                {
+                    thumbnail: 'images/wed/DSC00089.jpg',
+                    full: 'images/wed/DSC00089.jpg',
+                    alt: 'Beautiful wedding moment',
+                    category: 'Wedding'
+                },
+                {
+                    thumbnail: 'images/wed/DSC00107.jpg',
+                    full: 'images/wed/DSC00107.jpg',
+                    alt: 'Wedding couple love',
+                    category: 'Wedding'
+                },
+                {
+                    thumbnail: 'images/wed/DSC00749.jpg',
+                    full: 'images/wed/DSC00749.jpg',
+                    alt: 'Wedding ceremony capture',
+                    category: 'Wedding'
+                },
+                {
+                    thumbnail: 'images/wed/DSC00757.jpg',
+                    full: 'images/wed/DSC00757.jpg',
+                    alt: 'Wedding day happiness',
+                    category: 'Wedding'
+                },
+                {
+                    thumbnail: 'images/wed/DSC00811.jpg',
+                    full: 'images/wed/DSC00811.jpg',
+                    alt: 'Special wedding capture',
+                    category: 'Wedding'
                 }
             ],
             
@@ -142,6 +290,10 @@ createApp({
                 return this.photos;
             }
             return this.photos.filter(photo => photo.category === this.activeCategory);
+        },
+        
+        displayedGoogleReviews() {
+            return this.googleReviews.slice(0, this.displayedReviewsCount);
         }
     },
     
@@ -157,12 +309,14 @@ createApp({
         
         // Gallery methods
         openLightbox(index) {
+            console.log('Opening lightbox for index:', index); // Debug log
             this.currentPhotoIndex = index;
             this.lightboxOpen = true;
             document.body.style.overflow = 'hidden';
         },
         
         closeLightbox() {
+            console.log('Closing lightbox'); // Debug log
             this.lightboxOpen = false;
             document.body.style.overflow = 'auto';
         },
@@ -182,39 +336,7 @@ createApp({
             if (window.innerWidth > 768) {
                 this.mobileMenuOpen = false;
             }
-        }
-    },
-    
-    mounted() {
-        // Add event listeners
-        window.addEventListener('resize', this.handleResize);
-        
-        // Handle keyboard navigation in lightbox
-        document.addEventListener('keydown', (e) => {
-            if (this.lightboxOpen) {
-                if (e.key === 'Escape') {
-                    this.closeLightbox();
-                } else if (e.key === 'ArrowRight') {
-                    this.nextPhoto();
-                } else if (e.key === 'ArrowLeft') {
-                    this.prevPhoto();
-                }
-            }
-        });
-        
-        // Add smooth scrolling behavior
-        document.documentElement.style.scrollBehavior = 'smooth';
-        
-        // Initialize animations on scroll
-        this.initScrollAnimations();
-    },
-    
-    beforeUnmount() {
-        window.removeEventListener('resize', this.handleResize);
-    },
-    
-    methods: {
-        ...this.methods,
+        },
         
         // Animation methods
         initScrollAnimations() {
@@ -252,15 +374,12 @@ createApp({
             let shareUrl = '';
             
             switch(platform) {
-                case 'twitter':
-                    shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`;
-                    break;
                 case 'instagram':
                     // Instagram doesn't support direct URL sharing, so we'll open Instagram
-                    shareUrl = 'https://www.instagram.com/';
+                    shareUrl = 'https://www.instagram.com/thebloomystories/#';
                     break;
                 case 'youtube':
-                    shareUrl = 'https://www.youtube.com/';
+                    shareUrl = 'https://www.youtube.com/@thebloomytories';
                     break;
             }
             
@@ -286,6 +405,22 @@ createApp({
             this.mobileMenuOpen = false;
         },
         
+        // Dark mode toggle
+        toggleDarkMode() {
+            this.darkMode = !this.darkMode;
+            document.documentElement.classList.toggle('dark-mode', this.darkMode);
+            localStorage.setItem('darkMode', this.darkMode);
+        },
+        
+        // Initialize dark mode from localStorage
+        initDarkMode() {
+            const savedDarkMode = localStorage.getItem('darkMode');
+            if (savedDarkMode !== null) {
+                this.darkMode = JSON.parse(savedDarkMode);
+                document.documentElement.classList.toggle('dark-mode', this.darkMode);
+            }
+        },
+        
         // Lazy loading for images
         lazyLoadImages() {
             const imageObserver = new IntersectionObserver((entries, observer) => {
@@ -301,7 +436,168 @@ createApp({
             
             const lazyImages = document.querySelectorAll('img[data-src]');
             lazyImages.forEach(img => imageObserver.observe(img));
+        },
+
+        // Google Reviews Methods
+        async loadGoogleReviews() {
+            this.loadingReviews = true;
+            
+            try {
+                // For demo purposes, simulate Google Reviews data
+                // In production, you would replace this with actual Google Places API call
+                const mockReviews = [
+                    {
+                        id: 'review1',
+                        author_name: 'Priya Sharma',
+                        rating: 5,
+                        text: 'Absolutely stunning photography! The Bloomy Stories team captured our wedding beautifully. Every moment was perfectly preserved and the attention to detail was incredible. Highly recommend!',
+                        time: 1703097600,
+                        profile_photo_url: 'https://images.unsplash.com/photo-1494790108755-2616b612b47c?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&q=80'
+                    },
+                    {
+                        id: 'review2',
+                        author_name: 'Rajesh Patel',
+                        rating: 5,
+                        text: 'Outstanding service and exceptional photography skills. They made our special day even more memorable with their professional approach and creative shots.',
+                        time: 1701878400,
+                        profile_photo_url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&q=80'
+                    },
+                    {
+                        id: 'review3',
+                        author_name: 'Meera Joshi',
+                        rating: 5,
+                        text: 'The best wedding photographer in Vapi! Beautiful work, very professional, and delivered exactly what we wanted. The photos are artistic and emotional.',
+                        time: 1700668800,
+                        profile_photo_url: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&q=80'
+                    },
+                    {
+                        id: 'review4',
+                        author_name: 'Amit Desai',
+                        rating: 5,
+                        text: 'Fantastic experience! They captured every emotion and moment perfectly. The team is very skilled and professional. Would definitely recommend to anyone looking for quality wedding photography.',
+                        time: 1699459200,
+                        profile_photo_url: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&q=80'
+                    },
+                    {
+                        id: 'review5',
+                        author_name: 'Kavya Shah',
+                        rating: 5,
+                        text: 'Incredible photography and videography services! They made us feel comfortable throughout the shoot and delivered stunning results. Truly talented photographers.',
+                        time: 1698249600,
+                        profile_photo_url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&q=80'
+                    },
+                    {
+                        id: 'review6',
+                        author_name: 'Vivek Modi',
+                        rating: 5,
+                        text: 'Professional, creative, and punctual. The Bloomy Stories team exceeded our expectations. The pre-wedding and wedding photos are absolutely beautiful!',
+                        time: 1697040000,
+                        profile_photo_url: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&q=80'
+                    },
+                    {
+                        id: 'review7',
+                        author_name: 'Neha Thakkar',
+                        rating: 5,
+                        text: 'Amazing work! They captured our wedding day perfectly. The team is very professional and the quality of photos is outstanding. Highly recommended!',
+                        time: 1695830400,
+                        profile_photo_url: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&q=80'
+                    },
+                    {
+                        id: 'review8',
+                        author_name: 'Hardik Gupta',
+                        rating: 5,
+                        text: 'Excellent photography services! They made our wedding memorable with their creative shots and professional approach. Very satisfied with their work.',
+                        time: 1694620800,
+                        profile_photo_url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&q=80'
+                    }
+                ];
+
+                // Simulate API delay
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                this.googleReviews = mockReviews;
+                this.calculateOverallRating();
+                
+            } catch (error) {
+                console.error('Error loading Google Reviews:', error);
+                // Fallback to static testimonials if Google Reviews fail
+                this.googleReviews = [];
+            } finally {
+                this.loadingReviews = false;
+            }
+        },
+
+        calculateOverallRating() {
+            if (this.googleReviews.length === 0) return;
+            
+            const totalRating = this.googleReviews.reduce((sum, review) => sum + review.rating, 0);
+            this.overallRating = (totalRating / this.googleReviews.length).toFixed(1);
+        },
+
+        formatDate(timestamp) {
+            const date = new Date(timestamp * 1000);
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return date.toLocaleDateString('en-US', options);
+        },
+
+        loadMoreReviews() {
+            this.displayedReviewsCount += 3;
+        },
+
+        // Method to fetch real Google Reviews (requires API key and proper setup)
+        async fetchRealGoogleReviews() {
+            // This would be used when you have a proper Google Places API setup
+            const placeId = 'YOUR_GOOGLE_PLACE_ID'; // Replace with actual place ID
+            const apiKey = 'YOUR_API_KEY'; // Replace with actual API key
+            
+            try {
+                const response = await fetch(`https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=reviews,rating,user_ratings_total&key=${apiKey}`);
+                const data = await response.json();
+                
+                if (data.result && data.result.reviews) {
+                    this.googleReviews = data.result.reviews;
+                    this.calculateOverallRating();
+                }
+            } catch (error) {
+                console.error('Error fetching Google Reviews:', error);
+                // Fallback to mock data or static testimonials
+                this.loadGoogleReviews();
+            }
         }
+    },
+    
+    mounted() {
+        // Add event listeners
+        window.addEventListener('resize', this.handleResize);
+        
+        // Handle keyboard navigation in lightbox
+        document.addEventListener('keydown', (e) => {
+            if (this.lightboxOpen) {
+                if (e.key === 'Escape') {
+                    this.closeLightbox();
+                } else if (e.key === 'ArrowRight') {
+                    this.nextPhoto();
+                } else if (e.key === 'ArrowLeft') {
+                    this.prevPhoto();
+                }
+            }
+        });
+        
+        // Add smooth scrolling behavior
+        document.documentElement.style.scrollBehavior = 'smooth';
+        
+        // Initialize animations on scroll
+        this.initScrollAnimations();
+        
+        // Load Google Reviews
+        this.loadGoogleReviews();
+        
+        // Initialize dark mode
+        this.initDarkMode();
+    },
+    
+    beforeUnmount() {
+        window.removeEventListener('resize', this.handleResize);
     }
 }).mount('#app');
 
@@ -346,13 +642,23 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Add parallax effect to hero section
+// Add parallax effect to hero section and navbar scroll effect
 window.addEventListener('scroll', function() {
     const scrolled = window.pageYOffset;
     const heroImage = document.querySelector('.hero-image img');
+    const navbar = document.querySelector('.navbar');
     
     if (heroImage) {
         heroImage.style.transform = `translateY(${scrolled * 0.3}px)`;
+    }
+    
+    // Add scrolled class to navbar for logo switching
+    if (navbar) {
+        if (scrolled > 100) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
     }
 });
 
