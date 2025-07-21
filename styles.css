@@ -71,7 +71,7 @@ h3 {
     box-shadow: 0 1px 20px rgba(0, 0, 0, 0.05);
     border-bottom: 1px solid rgba(203, 213, 224, 0.3);
 }
-
+/*
 .nav-container {
     max-width: 1200px;
     margin: 0 auto;
@@ -80,7 +80,32 @@ h3 {
     justify-content: space-between;
     align-items: center;
 }
+    */
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
+.nav-main {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.dark-mode-toggle {
+    display: flex;
+    align-items: center;
+    padding-right: 1rem;
+}
+
+.dark-mode-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: inherit;
+}
 .nav-logo {
     position: relative;
     height: 80px;
@@ -88,6 +113,7 @@ h3 {
     background: white;
     border-radius: 16px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    margin-left: 50px;
 }
 
 .nav-logo img {

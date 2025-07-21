@@ -15,11 +15,13 @@
     <div id="app">
         <!-- Navigation -->
         <nav class="navbar">
-            <div class="nav-container">
-                <div class="nav-logo">
-                    <img src="images/logo.jpg" alt="Bloomy Stories" class="logo-light">
-                    <img src="images/logo_dark.jpg" alt="Bloomy Stories" class="logo-dark">
-                </div>
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="images/logo.jpg" alt="Bloomy Stories" class="logo-light">
+                <img src="images/logo_dark.jpg" alt="Bloomy Stories" class="logo-dark">
+            </div>
+
+            <div class="nav-main">
                 <ul class="nav-menu" :class="{ active: mobileMenuOpen }">
                     <li class="nav-item">
                         <a href="#" @click="currentPage = 'home'" :class="{ active: currentPage === 'home' }">Home</a>
@@ -33,18 +35,22 @@
                     <li class="nav-item">
                         <a href="#contact" @click="scrollToContact">Contact</a>
                     </li>
-                    <li class="nav-item dark-mode-toggle">
-                        <button @click="toggleDarkMode" class="dark-mode-btn" :title="darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'">
-                            <i :class="darkMode ? 'fas fa-sun' : 'fas fa-moon'"></i>
-                        </button>
-                    </li>
                 </ul>
-                <div class="nav-toggle" @click="mobileMenuOpen = !mobileMenuOpen">
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                    <span class="bar"></span>
+                
+                <div class="dark-mode-toggle">
+                    <button @click="toggleDarkMode" class="dark-mode-btn" :title="darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'">
+                        <i :class="darkMode ? 'fas fa-sun' : 'fas fa-moon'"></i>
+                    </button>
                 </div>
             </div>
+
+            <div class="nav-toggle" @click="mobileMenuOpen = !mobileMenuOpen">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+
         </nav>
 
         <!-- Home Page -->
